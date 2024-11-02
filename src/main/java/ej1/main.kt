@@ -9,20 +9,28 @@ class UsuarioKotlin(val nombre: String, val id: String)
 class PrestamoKotlin(val usuario: UsuarioKotlin, val libro:LibroKotlin)
 
 
-// Clase Biblioteca
-class Biblioteca {
+class BibliotecaKotlin {
     private val libros = mutableListOf<LibroKotlin>()
     private val usuarios = mutableListOf<UsuarioKotlin>()
     private val prestamos = mutableListOf<PrestamoKotlin>()
 
     fun agregarLibro(libro: LibroKotlin) {
-        libros.add(libro)
-        println("Libro '${libro.titulo}' agregado a la biblioteca.")
+
+        val agregado = libros.find { it.isbn == libro.isbn }
+        if (agregado == null){
+            libros.add(libro)
+            println("Libro '${libro.titulo}' agregado a la biblioteca.")
+        }else println("El libro que intentas agregar ya esta en la base de datos")
     }
 
     fun registrarUsuario(usuario: UsuarioKotlin) {
-        usuarios.add(usuario)
-        println("Usuario '${usuario.nombre}' registrado.")
+
+        val registrado = usuarios.find { it.id == usuario.id }
+
+        if (registrado == null){
+            usuarios.add(usuario)
+            println("Usuario '${usuario.nombre}' registrado.")
+        } else println("El usuario que intentas registrar ya esta en la base de datos")
     }
 
     fun prestarLibro(libro: LibroKotlin, usuario: UsuarioKotlin) {
@@ -56,7 +64,7 @@ class Biblioteca {
 }
 
 fun main() {
-    val biblioteca = Biblioteca()
+    val biblioteca = BibliotecaKotlin()
 
     // Agregar libros a la biblioteca
     val libro1 = LibroKotlin("T1 Faker", "Miguel de Cervantes", "123-ABC")
